@@ -1,6 +1,11 @@
 <?php
 
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\StripeController;
+use App\Models\Event;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,18 +19,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', );
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::resource('/evento', EventController::class);
+Route::get('/register', [AuthController::class, 'register'])->name('register');
+Route::get('/login', [AuthController::class, 'login'])->name('login');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+Route::post('/signin', [AuthController::class, 'signin'])->name('signin');
+Route::post('/signup', [AuthController::class, 'signup'])->name('signup');
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
-require __DIR__.'/auth.php';
+
+
+Route::get('/admin/dashboard', [HomeController::class, 'adminDashboard'])->name('adminDashboard');
+Route::post('/evento/filtred', [EventController::class, 'filterByCategory'])->name('filterByCategory');
+
+
+Route::post('/payement', [StripeController::class, 'stripe'])->name('stripe.get');
+Route::post('/stripe', [StripeController::class, 'stripePost'])->name('stripe.post');

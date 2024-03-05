@@ -1,52 +1,82 @@
-<x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
-        @csrf
-
-        <!-- Name -->
-        <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+@extends('layouts.layout')
+@section('content')
+<section class="vh-100">
+    <div class="container-fluid h-custom">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-md-9 col-lg-6 col-xl-5">
+          <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+            class="img-fluid" alt="Sample image">
         </div>
+        <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+            @if(session()->has('user'))
+            @php
+                $user = session('user');
+            @endphp
 
-        <!-- Email Address -->
-        <div class="mt-4">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+            <div class="alert alert-primary">
+                @if(isset($user['name']))
+                    <p>Name: {{ $user['name'] }}</p>
+                @endif
+
+                @if(isset($user['email']))
+                    <p>Email: {{ $user['email'] }}</p>
+                @endif
+
+                @if(isset($user['password']))
+                    <ul class="alert alert-danger">
+                        @foreach($user['password'] as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                @endif
+
+                @if(isset($user['profile']))
+                    <p>Profile: {{ $user['profile'] }}</p>
+                @endif
+            </div>
+        @endif
+
+          <form action="{{ route("signup") }}" method="POST" enctype="multipart/form-data">
+            @csrf
+
+            <div class="divider d-flex align-items-center my-4">
+              <p class="text-center fw-bold mx-3 mb-0">Register</p>
+            </div>
+            <div class="form-outline mb-3">
+                <label class="form-label" for="form3Example4">Name :</label>
+                <input type="text" name="name" id="form3Example4" class="form-control form-control-lg"
+                  placeholder="Enter your name" />
+              </div>
+            <!-- Email input -->
+            <div class="form-outline mb-4">
+                <label class="form-label" for="form3Example3">Email address :</label>
+              <input type="email" name="email" id="form3Example3" class="form-control form-control-lg"
+                placeholder="Enter a valid email address" />
+            </div>
+
+            <!-- Password input -->
+            <div class="form-outline mb-3">
+                <label class="form-label" for="form3Example4">Password :</label>
+                <input type="password" name="password" id="form3Example4" class="form-control form-control-lg"
+                    placeholder="Enter password" />
+            </div>
+
+            <!-- Confirm Password input -->
+            <div class="form-outline mb-3">
+                <label class="form-label" for="form3Example4">Confirm Password :</label>
+                <input type="password" name="password_confirmation" id="form3Example4" class="form-control form-control-lg"
+                    placeholder="Confirm password" />
+            </div>
+            <div class="form-outline mb-3">
+                <input type="file" name="profile" id="form3Example4" class="form-control form-control-lg" />
+            </div>
+
+
+        <input type="submit" name="submit" class="btn btn-primary" value="register">
+          </form>
         </div>
+      </div>
+    </div>
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                            type="password"
-                            name="password_confirmation" required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
-            </a>
-
-            <x-primary-button class="ml-4">
-                {{ __('Register') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+  </section>
+@endsection

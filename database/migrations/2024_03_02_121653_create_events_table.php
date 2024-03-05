@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('title');
             $table->text('description');
             $table->dateTime('start_date');
-            $table->integer('nbr_tickets');
             $table->string('image')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');

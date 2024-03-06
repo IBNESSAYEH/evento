@@ -20,7 +20,7 @@ class EventController extends Controller
     public function index()
     {
 
-        $events = Event::with('category', 'user')->paginate(6);
+        $events = Event::with('category', 'user')->where('status',1)->paginate(6);
         $categories = Category::all();
         return view('home',['categories' => $categories,'events' => $events]);
     }
@@ -144,5 +144,15 @@ class EventController extends Controller
     {
 
         Event::destroy($id);
+        return redirect()->route('evento.index')->with('success', 'Event deleted successfully.');
     }
+    public function accept(Request $request)
+    {
+
+
+        $event = Event::findOrFail($request->event_id);
+        $event->increment('status');
+        return redirect()->route('evento.index')->with('success', 'Event deleted successfully.');
+    }
+    
 }

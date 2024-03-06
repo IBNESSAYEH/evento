@@ -24,7 +24,7 @@
 @endif
 
 
-    <!-- events Grid-->
+    <!-- events Grid -->
 <section class="page-section bg-light" id="portfolio">
     <div class="container">
         <div class="text-center">
@@ -39,9 +39,11 @@
                     @csrf
                       <select name="category" class="form-select" id="categoryFilter">
                         <optgroup label="Categories">
+                            @if($categories)
                     @foreach($categories as $category)
                         <option value="{{ $category->id }}">{{ $category->name }}</option>
                     @endforeach
+                    @endif
                 </optgroup>
                 </select>
                 <button class="btn btn-primary" name="submit" id="applyFilterBtn">Filter</button>
@@ -69,7 +71,7 @@
                 <div class="modal fade" id="exampleModal{{ $event->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
-                            <h3 class="text-primary text-center d-block mt-3">{{ $event->category->name }}</h3>
+                            {{ $event->category ? $event->category->name : 'Uncategorized' }}
                             <div class="modal-header">
                                 <h1 class="modal-title fs-5" id="exampleModalLabel">{{ $event->title }} à : {{ $event->addresse }}</h1><br>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

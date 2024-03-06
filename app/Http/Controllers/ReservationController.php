@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Reservation;
 use App\Http\Requests\StoreReservationRequest;
 use App\Http\Requests\UpdateReservationRequest;
+use Illuminate\Support\Facades\Auth;
 
 class ReservationController extends Controller
 {
@@ -13,9 +14,12 @@ class ReservationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function myTickets()
     {
-        //
+        $myTickets = Reservation::with('event','user')->where('user_id', Auth::id())->get();
+
+
+        return view('evento.panier', compact('myTickets'));
     }
 
     /**

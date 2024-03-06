@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Role;
 use App\Http\Requests\StoreRoleRequest;
 use App\Http\Requests\UpdateRoleRequest;
+use App\Models\User;
+use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
@@ -68,11 +70,22 @@ class RoleController extends Controller
      * @param  \App\Models\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateRoleRequest $request, Role $role)
+    public function updateUserRole(Request $request)
     {
-        //
-    }
 
+        $request->validate([
+            'user_id' => 'required',
+            'role_id' => 'required|integer',
+        ]);
+
+        $user = User::findOrFail($request->user_id);
+
+
+        $user->role_id = $request->role_id;
+        $user->save();
+
+        return redirect()->route('adminDashboard')->with('success', 'User role updated successfully.');
+    }
     /**
      * Remove the specified resource from storage.
      *

@@ -1,57 +1,67 @@
 @extends('layouts.layout')
+
 @section('content')
-<section class="vh-100">
-    <div class="container-fluid h-custom">
-      <div class="row d-flex justify-content-center align-items-center h-100">
-        <div class="col-md-9 col-lg-6 col-xl-5">
-          <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
-            class="img-fluid" alt="Sample image">
+<main class="login-form" style="margin-top : 10rem">
+    <div class="cotainer">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">Login</div>
+                    <div class="card-body">
+
+                        <form  action="{{ route("signin") }}" method="POST">
+                            @csrf
+                            <div class="form-group row">
+                                <label for="email_address" class="col-md-4 col-form-label text-md-right">E-Mail Address</label>
+                                <div class="col-md-6">
+                                    <input type="text" id="email_address" class="form-control" name="email" required autofocus>
+                                    @if ($errors->has('email'))
+                                        <span class="text-danger">{{ $errors->first('email') }}</span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="password" class="col-md-4 col-form-label text-md-right">Password</label>
+                                <div class="col-md-6">
+                                    <input type="password" id="password" class="form-control" name="password" required>
+                                    @if ($errors->has('password'))
+                                        <span class="text-danger">{{ $errors->first('password') }}</span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-md-6 offset-md-4">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="remember"> Remember Me
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-md-6 offset-md-4">
+                                    <div class="checkbox">
+                                        <label>
+                                            <a href="{{ route('forget.password.get') }}">Reset Password</a>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 offset-md-4">
+                                <button type="submit" class="btn btn-primary">
+                                    Login
+                                </button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-          <form action="{{ route("signin") }}" method="POST">
-
-            @csrf
-            <div class="divider d-flex align-items-center my-4">
-              <p class="text-center fw-bold mx-3 mb-0">Login</p>
-            </div>
-
-            <!-- Email input -->
-            <div class="form-outline mb-4">
-              <input type="email" name="email" id="form3Example3" class="form-control form-control-lg"
-                placeholder="Enter a valid email address" />
-              <label class="form-label" for="form3Example3">Email address</label>
-            </div>
-
-            <!-- Password input -->
-            <div class="form-outline mb-3">
-                <input type="password" name="password" id="form3Example4" class="form-control form-control-lg"
-                    placeholder="Enter password" />
-                <label class="form-label" for="form3Example4">Password</label>
-            </div>
-
-            <div class="d-flex justify-content-between align-items-center">
-              <!-- Checkbox -->
-              <div class="form-check mb-0">
-                <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3" />
-                <label class="form-check-label" for="form2Example3">
-                  Remember me
-                </label>
-              </div>
-              <a href="#!" class="text-body">Forgot password?</a>
-            </div>
-
-            <div class="text-center text-lg-start mt-4 pt-2">
-                <button type="submit" name="submit" class="btn btn-primary btn-lg"
-                style="padding-left: 2.5rem; padding-right: 2.5rem;">Login</button>
-
-              <p class="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a href="#!"
-                  class="link-danger">Register</a></p>
-            </div>
-
-          </form>
-        </div>
-      </div>
     </div>
-
-  </section>
+  </main>
 @endsection

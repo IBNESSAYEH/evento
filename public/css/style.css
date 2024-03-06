@@ -19,12 +19,14 @@
 
 body {
   min-height: 100vh;
+  width: 100vw !important;
   overflow-x: hidden;
+  background: #2a2185 !important;
 }
 
-.container {
+.containe {
   position: relative;
-  width: 100%;
+  width: 100vw !important;
 }
 
 /* =============== Navigation ================ */
@@ -297,7 +299,7 @@ body {
   border-radius: 6px;
 }
 
-.details table {
+.recentCustomers table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 10px;
@@ -474,16 +476,19 @@ body {
 
 
 
-.actions a{
-    height: 100% !important;
+.actions a, .actions form button {
+    height: 2rem!important;
     display: flex !important;
     flex-direction: column !important;
-    justify-content: end !important;
+    justify-content: center !important;
     align-items: center !important;
     gap: 1rem !important;
+    width: 6rem;
+    outline: none;
+    border: none;
 }
 
-.btn{
+.btn, .actions form .btn{
     padding: 3px;
     border-radius: 3px;
     margin: 3px 0;
@@ -509,5 +514,7 @@ body {
     background-color: rgba(0, 55, 255, 0.596);
 }
 
-
+.sections{
+    margin-top: 2rem;
+}
 

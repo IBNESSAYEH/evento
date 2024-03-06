@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 
-class AdminMiddleware
+class SpectateurMiddleware
 {
     /**
      * Handle an incoming request.
@@ -17,9 +17,8 @@ class AdminMiddleware
     public function handle(Request $request, Closure $next)
     {
 
-        if ($request->user()->role_id == 3) {
+        if ($request->user()->role_id == 1) {
             return $next($request);
         }
-        return abort(403, 'Unauthorized action.');
-    }
+        return abort(403, 'Unauthorized action.');    }
 }

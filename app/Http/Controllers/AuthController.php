@@ -48,7 +48,7 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
 
-            return redirect()->route('evento.index');
+            return redirect()->route('home');
         } else {
 
             return redirect()->route('login');

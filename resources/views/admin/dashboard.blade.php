@@ -34,7 +34,7 @@
                     </a>
                 </li>
 
-                <li>
+                {{-- <li>
                     <a href="#">
                         <span class="icon">
                             <ion-icon name="people-outline"></ion-icon>
@@ -77,7 +77,7 @@
                         </span>
                         <span class="title">Password</span>
                     </a>
-                </li>
+                </li> --}}
 
                 <li>
                     <a href="{{ route('logout') }}">
@@ -146,7 +146,7 @@
 
                 <div class="card">
                     <div>
-                        <div class="numbers">7,842</div>
+                        <div class="numbers">{{ count($organisateurs) }}</div>
                         <div class="cardName">Organisateurs</div>
                     </div>
 
@@ -200,18 +200,25 @@
                                     @endif
                                     <td class="actions" style="display: flex; align-items: center; gap: 4px; ">
 
-                                        <form method="POST" action="{{ route('updateUserRole') }}">
+                                        <form method="POST" action="{{ route('updateUserRole') }}" class="d-flex gap-1 flex-column align-items-center ">
                                             @csrf
                                             @method('PATCH')
 
                                             <div class="form-group">
-                                                <label for="role_id">Role ID:</label>
-                                                <input type="text" name="role_id" id="role_id" value="{{ $user->role_id }}">
+
+                                                <select name="role_id" id="role_id">
+                                                    <option value="1" >spectateur</option>
+                                                    <option value="2" >organisateur</option>
+                                                    <option value="3" >admin</option>
+                                                </select>
                                                 <input type="hidden" name="user_id" id="user_id" value="{{ $user->id }}">
                                             </div>
 
-                                            <button type="submit">Update Role</button>
+
+                                            <button type="submit" name="submit" class="btn btn-primary">Update Role</button>
                                         </form>
+
+
                                                                             </td>
                                 </tr>
                                 @endforeach
@@ -220,7 +227,7 @@
                     </div>
                 </div>
                 <div>
-            <!-- ================ Order Details List ================= -->
+            {{-- <!-- ================ Order Details List ================= -->
             <div class="sections">
                 <div class="recentCustomers ">
                     <div class="recentOrders">
@@ -259,8 +266,8 @@
                             </tbody>
                         </table>
                     </div>
-                </div>
-                <div>
+                </div> --}}
+                {{-- <div> --}}
                     <!-- display messages -->
                     @if (session('success'))
                     <div class="alert alert-success">

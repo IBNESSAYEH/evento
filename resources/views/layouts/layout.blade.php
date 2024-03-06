@@ -48,7 +48,11 @@
                             {{ $userAuthenticated->name }}
                         </p>
                         <ul class="dropdown-menu">
+
+
+
                             <li><a class="dropdown-item text-dark " href="{{ route('adminDashboard') }}">Dashboard</a>
+
                             </li>
                             <li><a class="dropdown-item text-dark " href="#">Profile</a></li>
                             <li><a class="dropdown-item text-dark " href="{{ url('/logout') }}">Logout</a></li>

@@ -13,6 +13,7 @@ class HomeController extends Controller
 {
     public function adminDashboard(){
         $inactiveEvent = Event::with('category', 'user')->where("status", 0)->paginate(6);
+
         $users = User::all();
         $organisateurs = User::where('role_id',2)->get();
         $events = Event::all();
@@ -22,12 +23,19 @@ class HomeController extends Controller
         return view('admin.dashboard', compact("inactiveEvent",'users','events','totalReservations','categories','organisateurs'));
     }
     public function organisateurDashboard(){
-        $inactiveEvent = Event::with('category', 'user')->where("user_id", Auth::id())->paginate(6);
+
+
+        $inactiveEvent = Event::with('category', 'user','reservation')->where("user_id", Auth::id())->get();
+
+
+        $categories = Category::all();
         $users = User::all();
         $events = Event::all();
-        $totalReservations = Reservation::count();
+        // $totalReservations = Event::withCount('reservation')->get();
+        $totalReservations = Event::where("user_id", Auth::id())->where('status',1)->count();
 
-        return view('organisateur.dashboard', compact("inactiveEvent",'users','events','totalReservations'));
+        // dd($totalReservations) ;
+        return view('organisateur.dashboard', compact("inactiveEvent", "categories", 'users','events','totalReservations'));
     }
 
     public function home()
@@ -37,4 +45,5 @@ class HomeController extends Controller
         $categories = Category::all();
         return view('home',['categories' => $categories,'events' => $events]);
     }
+
 }

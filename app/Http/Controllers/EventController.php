@@ -62,6 +62,7 @@ class EventController extends Controller
             'category_id' => 'required|exists:categories,id',
             'addresse' => 'required',
             'prix' => 'required',
+            'type_reservation' => 'required',
 
             'city_id' => 'required',
             ]);
@@ -97,9 +98,10 @@ class EventController extends Controller
     public function edit(Event $evento)
     {
         $categories = Category::all();
+        $cities = City::all();
         $event = Event::findOrFail($evento->id);
 
-        return view('evento.update',['categories' => $categories, 'event' => $event]);
+        return view('evento.update',['categories' => $categories, "cities"=> $cities, 'event' => $event]);
     }
 
     /**
@@ -121,6 +123,7 @@ class EventController extends Controller
             'category_id' => 'required|exists:categories,id',
             'prix' => 'required',
             'city_id' => 'required',
+            'type_reservation' => 'required',
         ]);
         $validatedData['user_id'] = Auth::id();
         if ($request->hasFile('image')) {
@@ -154,5 +157,19 @@ class EventController extends Controller
         $event->increment('status');
         return redirect()->route('evento.index')->with('success', 'Event deleted successfully.');
     }
-    
+    public function searchByTitle(Request $request)
+    {
+        $keyword = $request->input('title_s');
+        if ($keyword === '') {
+            $events = Event::where('status', 1)->get();
+        } else {
+            $events = Event::where('status', 1)
+                           ->where('title', 'like', '%' . $keyword . '%')
+                           ->paginate(6);
+        }
+
+        return view('searchResult')->with(['events' => $events, 'keyword' => $keyword]);
+    }
+
+
 }

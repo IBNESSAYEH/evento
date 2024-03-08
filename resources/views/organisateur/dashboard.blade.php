@@ -34,50 +34,6 @@
                     </a>
                 </li>
 
-                <li>
-                    <a href="#">
-                        <span class="icon">
-                            <ion-icon name="people-outline"></ion-icon>
-                        </span>
-                        <span class="title">Customers</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#">
-                        <span class="icon">
-                            <ion-icon name="chatbubble-outline"></ion-icon>
-                        </span>
-                        <span class="title">Messages</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#">
-                        <span class="icon">
-                            <ion-icon name="help-outline"></ion-icon>
-                        </span>
-                        <span class="title">Help</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#">
-                        <span class="icon">
-                            <ion-icon name="settings-outline"></ion-icon>
-                        </span>
-                        <span class="title">Settings</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#">
-                        <span class="icon">
-                            <ion-icon name="lock-closed-outline"></ion-icon>
-                        </span>
-                        <span class="title">Password</span>
-                    </a>
-                </li>
 
                 <li>
                     <a href="{{ route('logout') }}">
@@ -110,12 +66,12 @@
             </div>
 
             <!-- ======================= Cards ================== -->
-            <div class="cardBox">
+            {{-- <div class="cardBox">
 
 
                 <div class="card">
                     <div>
-                        <div class="numbers">{{ $totalReservations }}</div>
+                        <div class="numbers">{{ $totalReservations  }}</div>
                         <div class="cardName">Reservations</div>
                     </div>
 
@@ -129,7 +85,7 @@
 
 
 
-            </div>
+            </div> --}}
 
             <!-- ================ Order Details List ================= -->
             <div class="sections">
@@ -143,9 +99,6 @@
                             <thead>
                                 <tr>
                                     <th>Event</th>
-                                    <th>Organisateur</th>
-                                    <th>Date</th>
-                                    <th>Addresse</th>
                                     <th>Status</th>
                                     <th>Actions</th>
                                 </tr>
@@ -155,25 +108,36 @@
                                 @foreach ($inactiveEvent as $event)
                                 <tr class="tr">
                                     <td>{{ $event->title }}</td>
-                                    <td>{{ $event->user->name }}</td>
-                                    <td>{{ $event->start_date }}</td>
-                                    <td>{{ $event->addresse }}</td>
-                                    @if($event->status == 0)
-                                    <td class="text-danger">Inactive</td>
-                                    @endif
+                                    <td>
+
+                                            @if($event->reservation->isNotEmpty() && $event->reservation->first()->status == 3)
+                                                <span class="text-danger">not yet</span>
+                                            @else
+                                                <span class="text-success">accepted</span>
+                                            @endif
+
+                                    </td>
+
+
+
                                     <td class="actions" style="display: flex; align-items: center; gap: 4px; ">
-                                        <form action="{{ route('acceptEvent') }}" method="POST">
+
+                                        @if($event->reservation->isNotEmpty() && $event->reservation->first()->status == 3)
+                                        <form method="POST" action="{{ route('reservation.update', ['reservation' => $event->reservation->first()->id]) }}">
                                             @csrf
                                             @method('PATCH')
-                                            <input type="hidden" name="event_id" value="{{ $event->id }}">
+                                            <input type="hidden" name="user_id" value="{{ $event->reservation->isNotEmpty() ? $event->reservation->first()->user_id : '' }}">
 
-                                            <button type="submit" name="submit" class="btn btn-primary">Accept</button>
+                                            <input type="hidden" name="event_id" value="{{ $event->id }}">
+                                            <button class="btn btn-success" type="submit" name="submit">accept</button>
                                         </form>
-                                        <form method="POST" action="{{ route('evento.destroy', ['evento' => $event->id]) }}">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button class="btn btn-danger" type="submit" name="submit">Refus</button>
-                                        </form>
+                                    @else
+                                    <button class="btn btn-primary" >accepted</button>
+                                    @endif
+
+
+
+
                                     </td>
                                 </tr>
                                 @endforeach

@@ -16,7 +16,6 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-
         if ($request->user()->role_id == 3) {
             return $next($request);
         }

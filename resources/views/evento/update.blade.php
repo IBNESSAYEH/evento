@@ -33,7 +33,7 @@
             </div>
             <div class="form-group">
                 <label for="nbr_tickets">Prix :</label>
-                <input type="number" class="form-control" id="nbr_tickets" name="prix">
+                <input type="number" class="form-control" id="nbr_tickets" name="prix" value="{{ old("prix", $event->prix ?? null) }}">
             </div>
 
             <div class="form-group">

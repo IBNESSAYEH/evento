@@ -227,8 +227,62 @@
                     </div>
                 </div>
                 <div>
-            {{-- <!-- ================ Order Details List ================= -->
+                    <!-- ================ Order Details List ================= -->
             <div class="sections">
+                <div class="recentCustomers ">
+                    <div class="recentOrders">
+                        <div class="cardHeader">
+                            <h2>Recent event</h2>
+                        </div>
+
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Event</th>
+                                    <th>Organisateur</th>
+                                    <th>Date</th>
+                                    <th>Addresse</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @foreach ($inactiveEvent as $event)
+                                <tr class="tr">
+                                    <td>{{ $event->title }}</td>
+                                    <td>{{ $event->user->name }}</td>
+                                    <td>{{ $event->start_date }}</td>
+                                    <td>{{ $event->addresse }}</td>
+                                    @if($event->status == 0)
+                                    <td class="text-danger">Inactive</td>
+                                    @endif
+                                    <td class="actions" style="display: flex; align-items: center; gap: 4px; ">
+                                        <form method="POST" action="{{ route('acceptEvent') }}" class="d-flex gap-1 flex-column align-items-center ">
+                                            @csrf
+                                            @method('PATCH')
+
+                                            <div class="form-group">
+
+
+                                                <input type="hidden" name="event_id" id="event_id" value="{{ $event->id }}">
+                                            </div>
+
+
+                                            <button type="submit" name="submit" class="btn btn-primary">accept</button>
+                                        </form>
+
+
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div>
+            {{-- <!-- ================ Order Details List ================= -->
+            {{-- <div class="sections">
                 <div class="recentCustomers ">
                     <div class="recentOrders">
                         <div class="cardHeader">
@@ -267,7 +321,7 @@
                         </table>
                     </div>
                 </div> --}}
-                {{-- <div> --}}
+                <div>
                     <!-- display messages -->
                     @if (session('success'))
                     <div class="alert alert-success">

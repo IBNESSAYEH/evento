@@ -37,6 +37,13 @@
                 <label for="image">Image:</label>
                 <input type="file" class="form-control-file" id="image" name="image">
             </div>
+            <div class="form-group" >
+                <label for="image" class="d-block">Type de reservation:</label>
+                <div class="d-block" >                <input type="radio" name="type_reservation"  value="0" @checked(true)> automatique
+                <div class="d-block"> <input type="radio" name="type_reservation"  value="1"> manual</div>
+</div>
+
+            </div>
 
             <div class="form-group">
                 <label for="category_id">Category:</label>

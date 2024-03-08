@@ -23,7 +23,7 @@
     </div>
 @endif
 
-
+<div id="events"></div>
     <!-- events Grid -->
 <section class="page-section bg-light" id="portfolio">
     <div class="container">
@@ -32,9 +32,16 @@
             <h3 class="section-subheading text-muted">Take your ticket to enjoy the part</h3>
         </div>
 
+
+
+
+
+
+
+
         <!-- Filter by Category -->
-        <div class="row mb-4">
-            <div class="col-md-6 offset-md-3">
+        <div class="row mb-4  flex-row    justify-content-between align-items-end ">
+            <div class="col-md-4">
                 <form action="{{ route('filterByCategory') }}" method="POST" class="d-flex justify-content-center ">
                     @csrf
                       <select name="category" class="form-select" id="categoryFilter">
@@ -49,9 +56,23 @@
                 <button class="btn btn-primary" name="submit" id="applyFilterBtn">Filter</button>
                 </form>
             </div>
+            <div class="col-md-4">
+
+
+                    <input class="form-control" list="datalistOptions" id="searchByTitle" name="searchByTitle" placeholder="Type to search...">
+                    <datalist id="datalistOptions">
+                        @foreach ($events as $event)
+
+                        <option value="{{ $event->title }}">
+                        @endforeach
+
+                    </datalist>
+
+            </div>
+            </div>
         </div>
 
-        <div class="row" id="eventCards">
+        <div class="row" id="searchResults">
             <!-- Event Cards -->
             @forelse ($events as $event)
                 <div class="col-lg-4 col-sm-6 mb-4">
@@ -85,18 +106,23 @@
                                 <p class="d-flex">Prix : {{ $event->prix }}</p>
                             </div>
                             <div class="modal-footer">
+                                @if ($event->type_reservation == 0)
+
                                 <form method="POST" action="{{ route('stripe.get') }}">
                                     @csrf
                                     <input type="hidden" name="amount" value="{{ $event->prix }}">
                                     <input type="hidden" name="event" value="{{ $event->id }}">
                                     <button type="submit" name="submit" class="btn btn-success">Reserver</button>
                                 </form>
-                                <a class="btn btn-primary" href="{{ route('evento.edit',['evento' => $event->id]) }}">update</a>
-                                <form method="POST" action="{{ route('evento.destroy', ['evento' => $event->id]) }}">
+                                @else
+                                <form method="POST" action="{{ route('reservation.store') }}">
                                     @csrf
-                                    @method('DELETE')
-                                    <button class="btn btn-danger" type="submit" name="submit">delete</button>
+
+                                    <input type="hidden" name="event_id" value="{{ $event->id }}">
+                                    <button type="submit" name="submit" class="btn btn-primary">demander</button>
                                 </form>
+                                @endif
+
                             </div>
                         </div>
                     </div>
@@ -111,6 +137,33 @@
 </section>
 
 
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+        var searchTitleInput = document.getElementById("searchByTitle");
+        var searchResultContainer = document.getElementById("searchResults");
+
+        searchTitleInput.addEventListener("keyup", function() {
+            var title = searchTitleInput.value;
+
+            $.ajax({
+                type: 'GET',
+                url: '/searchByTitle/',
+                data: {
+                    title_s: title
+                },
+                success: function(data) {
+                    searchResultContainer.innerHTML = data;
+                },
+                error: function(error) {
+                    console.error("Error during search:", error);
+                }
+            });
+        });
+    });
+</script>
+
+
     <!-- Bootstrap core JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -118,3 +171,12 @@
     <script src="{{ asset('js/scripts.js') }}"></script>
 
 @endsection
+
+
+
+
+
+
+
+
+

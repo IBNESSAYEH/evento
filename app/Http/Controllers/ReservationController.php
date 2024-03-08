@@ -6,6 +6,7 @@ use App\Models\Reservation;
 use App\Http\Requests\StoreReservationRequest;
 use App\Http\Requests\UpdateReservationRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class ReservationController extends Controller
 {
@@ -29,7 +30,7 @@ class ReservationController extends Controller
      */
     public function create()
     {
-        //
+//
     }
 
     /**
@@ -38,9 +39,19 @@ class ReservationController extends Controller
      * @param  \App\Http\Requests\StoreReservationRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreReservationRequest $request)
+    public function store(Request $request)
     {
-        //
+
+
+        $validatedData = $request->validate([
+            'event_id' => 'required',
+
+            ]);
+        $reservation['event_id'] = $request->event_id;
+        $reservation['user_id'] = Auth::id();
+        $reservation['status'] = "3" ;
+        $eventReservation = Reservation::create($reservation);
+        return back()->with('status','demande effectuer avec succes');
     }
 
     /**
@@ -72,9 +83,20 @@ class ReservationController extends Controller
      * @param  \App\Models\Reservation  $reservation
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateReservationRequest $request, Reservation $reservation)
+    public function update(Request $request, Reservation $reservation)
     {
-        //
+
+
+        $validatedData = $request->validate([
+            'user_id' => 'required',
+            'event_id' => 'required',
+            ]);
+        $reservation = Reservation::findOrFail($reservation->id);
+        $validatedData['status'] = 0;
+        $reservation->update($validatedData);
+
+
+        return redirect()->back()->with('success', 'reservation accepted.');
     }
 
     /**

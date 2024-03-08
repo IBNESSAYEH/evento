@@ -30,12 +30,25 @@ class StripeController extends Controller
                 'description' => 'evento reservation'
             ]);
 
-            $reservation['event_id'] = $request->event_id;
-            $reservation['user_id'] =Auth::id();
-            $eventReservation = Reservation::create($reservation);
+            $checkReservation = Reservation::where('event_id',$request->event_id)->where('user_id',Auth::id())->first();
+
+if(!$checkReservation){
+
+    $reservation['event_id'] = $request->event_id;
+    $reservation['user_id'] =Auth::id();
+    $reservation['status'] =1;
+    $event->decrement('nb_reservation');
+    $eventReservation = Reservation::create($reservation);
+}elseif($checkReservation->status == 0){
+    $checkReservation->increment('status');
+    $event->decrement('nb_reservation');
+}else{
+    Session::flash('success', 'deja reserver');
+    return redirect()->route('evento.index');
+}
 
 
-            $event->decrement('nb_reservation');
+
             // Charge was successful, process accordingly
             Session::flash('success', 'payment success');
             return redirect()->route('evento.index');

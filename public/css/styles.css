@@ -1,0 +1,198 @@
+/* Global styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+/* Masthead */
+.masthead {
+    background-image: url('/assets/img/header-bg.jpg');
+    color: #fff;
+    text-align: center;
+    padding: 80px 0;
+}
+
+.masthead-subheading {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 20px;
+}
+
+.masthead-heading {
+    font-size: 48px;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+.btn-primary {
+    background-color: #2a2185;
+    border-color: #007bff;
+    padding: 10px 30px;
+    font-size: 18px;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+/* Portfolio section */
+#portfolio {
+    padding: 80px 0;
+}
+
+.section-heading {
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+.section-subheading {
+    font-size: 18px;
+    font-style: italic;
+    margin-bottom: 50px;
+}
+
+.card {
+    margin-bottom: 30px;
+}
+
+.card-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.card-text {
+    font-size: 16px;
+}
+
+/* Modal styles */
+.modal-title {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.modal-body img {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.modal-footer .btn {
+    padding: 10px 20px;
+    font-size: 18px;
+    margin-right: 10px;
+}
+
+.alert {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+}
+
+
+
+
+
+
+
+.navbar {
+    background-color: var(--blue);
+    padding: 20px 0;
+}
+
+.navbar-brand {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.navbar-toggler {
+    border: none;
+}
+
+.navbar-nav .nav-item {
+    margin-left: 20px;
+}
+
+.navbar-nav .nav-item a {
+    font-size: 18px;
+}
+
+.dropdown-toggle {
+    cursor: pointer;
+}
+
+.dropdown-menu {
+    background-color: var(--blue);
+    border: none;
+    margin-top: 10px;
+}
+
+.dropdown-menu a {
+    color: var(--white);
+}
+
+.dropdown-menu a:hover {
+    background-color: #2a2185;
+}
+
+
+
+
+
+
+.navbar {
+    background-color: #222; /* Dark background color */
+    padding: 20px 0;
+}
+
+.navbar-brand {
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff; /* White text color */
+}
+
+.navbar-toggler {
+    border: none;
+}
+
+.navbar-nav .nav-item {
+    margin-left: 20px;
+}
+
+.navbar-nav .nav-item a {
+    font-size: 18px;
+    color: #fff; /* White text color */
+}
+
+.dropdown-toggle {
+    cursor: pointer;
+}
+
+.dropdown-menu {
+    background-color: #222; /* Dark background color */
+    border: none;
+    margin-top: 10px;
+}
+
+.dropdown-menu a {
+    color: #fff; /* White text color */
+}
+
+.dropdown-menu a:hover {
+    background-color: #2a2185;
+}
+

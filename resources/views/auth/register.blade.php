@@ -36,47 +36,185 @@
             </div>
         @endif
 
-          <form action="{{ route("signup") }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route("signup") }}" method="POST" enctype="multipart/form-data" id="myForm">
             @csrf
 
             <div class="divider d-flex align-items-center my-4">
               <p class="text-center fw-bold mx-3 mb-0">Register</p>
             </div>
             <div class="form-outline mb-3">
-                <label class="form-label" for="form3Example4">Name :</label>
-                <input type="text" name="name" id="form3Example4" class="form-control form-control-lg"
-                  placeholder="Enter your name" />
-              </div>
+              <label class="form-label" for="form3Example4">Name :</label>
+              <input type="text" name="name" id="name" class="form-control form-control-lg"
+                placeholder="Enter your name" />
+              <span id="nameError" class="text-danger"></span>
+            </div>
             <!-- Email input -->
             <div class="form-outline mb-4">
-                <label class="form-label" for="form3Example3">Email address :</label>
-              <input type="email" name="email" id="form3Example3" class="form-control form-control-lg"
+              <label class="form-label" for="form3Example3">Email address :</label>
+              <input type="text" name="email" id="email" class="form-control form-control-lg"
                 placeholder="Enter a valid email address" />
+              <span id="emailError" class="text-danger"></span>
             </div>
 
             <!-- Password input -->
             <div class="form-outline mb-3">
-                <label class="form-label" for="form3Example4">Password :</label>
-                <input type="password" name="password" id="form3Example4" class="form-control form-control-lg"
-                    placeholder="Enter password" />
+              <label class="form-label" for="form3Example4">Password :</label>
+              <input type="password" name="password" id="password" class="form-control form-control-lg"
+                placeholder="Enter password" />
+              <span id="passwordError" class="text-danger"></span>
             </div>
 
             <!-- Confirm Password input -->
             <div class="form-outline mb-3">
-                <label class="form-label" for="form3Example4">Confirm Password :</label>
-                <input type="password" name="password_confirmation" id="form3Example4" class="form-control form-control-lg"
-                    placeholder="Confirm password" />
+              <label class="form-label" for="form3Example4">Confirm Password :</label>
+              <input type="password" name="password_confirmation" id="passwordconf" class="form-control form-control-lg"
+                placeholder="Confirm password" />
+              <span id="passwordConfirmationError" class="text-danger"></span>
             </div>
             <div class="form-outline mb-3">
-                <input type="file" name="profile" id="form3Example4" class="form-control form-control-lg" />
+              <input type="file" name="profile" id="profile" class="form-control form-control-lg" />
+              <span id="profileError" class="text-danger"></span>
             </div>
 
-
-        <input type="submit" name="submit" class="btn btn-primary" value="register">
+            <input type="submit" name="submit" class="btn btn-primary" value="register">
           </form>
         </div>
       </div>
     </div>
 
   </section>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('myForm').addEventListener('submit', function (event) {
+            if (!validateForm()) {
+                event.preventDefault();
+            }
+        });
+
+        function validateForm() {
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const passwordConfirmation = document.getElementById('passwordconf').value.trim();
+            const profile = document.getElementById('profile').value.trim();
+            let isValid = true;
+
+            if (!validateName(name)) {
+                isValid = false;
+            }
+
+            if (!validateEmail(email)) {
+                isValid = false;
+            }
+
+            if (!validatePassword(password)) {
+                isValid = false;
+            }
+
+            if (!validatePasswordConfirmation(password, passwordConfirmation)) {
+                isValid = false;
+            }
+
+            if (!validateProfile(profile)) {
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        function validateName(name) {
+            if (name === "") {
+                displayError('nameError', 'Name is required');
+                return false;
+            } else if (!/^[a-zA-Z]+$/.test(name)) {
+                displayError('nameError', 'Name must contain only characters');
+                return false;
+            } else if (name.length <= 3) {
+                displayError('nameError', 'Name must be more than 3 characters');
+                return false;
+            } else {
+                clearError('nameError');
+                return true;
+            }
+        }
+
+        function validateEmail(email) {
+            if (email === "") {
+                displayError('emailError', 'Email address is required');
+                return false;
+            } else if (!/\S+@\S+\.\S+/.test(email)) {
+                displayError('emailError', 'Invalid email address');
+                return false;
+            } else {
+                clearError('emailError');
+                return true;
+            }
+        }
+
+        function validatePassword(password) {
+            if (password === "") {
+                displayError('passwordError', 'Password is required');
+                return false;
+            } else if (password.length < 8 || password.length > 20) {
+                displayError('passwordError', 'Password must be between 8 and 20 characters');
+                return false;
+            } else if (!/[A-Z]/.test(password)) {
+                displayError('passwordError', 'Password must contain at least 1 uppercase letter');
+                return false;
+            } else if (!/[a-z]/.test(password)) {
+                displayError('passwordError', 'Password must contain at least 1 lowercase letter');
+                return false;
+            } else if (!/\d/.test(password)) {
+                displayError('passwordError', 'Password must contain at least 1 digit');
+                return false;
+            } else if (!/[^a-zA-Z0-9]/.test(password)) {
+                displayError('passwordError', 'Password must contain at least 1 special character');
+                return false;
+            } else {
+                clearError('passwordError');
+                return true;
+            }
+        }
+
+        function validatePasswordConfirmation(password, passwordConfirmation) {
+            if (passwordConfirmation === "") {
+                displayError('passwordConfirmationError', 'Please confirm your password');
+                return false;
+            } else if (password !== passwordConfirmation) {
+                displayError('passwordConfirmationError', 'Passwords do not match');
+                return false;
+            } else {
+                clearError('passwordConfirmationError');
+                return true;
+            }
+        }
+
+        function validateProfile(profile) {
+            if (profile === "") {
+                displayError('profileError', 'Profile image is required');
+                return false;
+            } else {
+                clearError('profileError');
+                return true;
+            }
+        }
+
+        function displayError(elementId, errorMessage) {
+            const errorElement = document.getElementById(elementId);
+            errorElement.textContent = errorMessage;
+        }
+
+        function clearError(elementId) {
+            const errorElement = document.getElementById(elementId);
+            errorElement.textContent = "";
+        }
+    });
+</script>
+
+
+
+
+
+
 @endsection

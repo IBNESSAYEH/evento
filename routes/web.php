@@ -29,11 +29,14 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth'])->group(function () {
     Route::resource('reservation', ReservationController::class);
     Route::get('/home', [HomeController::class, 'home'])->name('home');
+    Route::get('/', [HomeController::class, 'home'])->name('home');
     Route::resource('/evento', EventController::class)->only(['index']);
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::post('/payement', [StripeController::class, 'stripe'])->name('stripe.get');
     Route::post('/stripe', [StripeController::class, 'stripePost'])->name('stripe.post');
     Route::get('/panier', [ReservationController::class, 'myTickets'])->name('myTickets');
+Route::post('/evento/filtred', [EventController::class, 'filterByCategory'])->name('filterByCategory');
+Route::get('/searchByTitle', [EventController::class, 'searchByTitle'])->name('searchByTitle');
 });
 
 Route::middleware(['admin'])->group(function () {
@@ -64,11 +67,6 @@ Route::post('/signup', [AuthController::class, 'signup'])->name('signup');
 
 
 
-Route::post('/evento/filtred', [EventController::class, 'filterByCategory'])->name('filterByCategory');
-
-
-
-Route::get('/searchByTitle', [EventController::class, 'searchByTitle'])->name('searchByTitle');
 
 
 

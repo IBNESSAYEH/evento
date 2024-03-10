@@ -66,7 +66,7 @@
             </div>
 
             <!-- ======================= Cards ================== -->
-            {{-- <div class="cardBox">
+            <div class="cardBox">
 
 
                 <div class="card">
@@ -85,7 +85,7 @@
 
 
 
-            </div> --}}
+            </div>
 
             <!-- ================ Order Details List ================= -->
             <div class="sections">

@@ -9,6 +9,7 @@ use App\Models\Category;
 use App\Models\City;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class EventController extends Controller
 {
@@ -113,7 +114,12 @@ class EventController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $event = Event::findOrFail($request->event_id);
+        if (! Gate::allows('organisateur', $event)) {
+            abort(403);
+        }
         // Validate the incoming request data
+
         $validatedData = $request->validate([
             'title' => 'required|max:255',
             'description' => 'required',
@@ -145,7 +151,10 @@ class EventController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-
+        $event = Event::findOrFail($request->event_id);
+        if (! Gate::allows('organisateur', $event)) {
+            abort(403);
+        }
         Event::destroy($id);
         return redirect()->route('evento.index')->with('success', 'Event deleted successfully.');
     }
@@ -154,6 +163,9 @@ class EventController extends Controller
 
 
         $event = Event::findOrFail($request->event_id);
+        if (! Gate::allows('organisateur', $event)) {
+            abort(403);
+        }
         $event->increment('status');
         return redirect()->route('evento.index')->with('success', 'Event deleted successfully.');
     }
